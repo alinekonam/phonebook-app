@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دفترچه تلفن</title>
+<style>
+:root{--bg:#2457b8;--bg2:#0f2d6b;--sf:rgba(255,255,255,.07);--tx:#eef3fa;--mu:#9db0c8;--ac:#5fd0ff;--ln:rgba(255,255,255,.12);--rd:#ef4444;--gn:#12a15a;--bl:#1b8bd0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#16181c;--bg2:#0c0d0f;--sf:rgba(255,255,255,.07)}
+:root[data-theme="green"]{--bg:#0b3d2e;--bg2:#04180f}
+:root[data-theme="purple"]{--bg:#2d1b5e;--bg2:#10082a}
+:root[data-theme="wine"]{--bg:#4a1426;--bg2:#1c050e}
+body.drive .row{padding:18px 4px;font-size:20px}body.drive .av{width:72px;height:72px}body.drive .qa button{width:56px;height:56px}
+:root[data-theme="light"]{--bg:#f4f6f9;--bg2:#fff;--sf:#fff;--tx:#1b1f24;--mu:#6b7280;--ac:#0b7bb5;--ln:#dde2e8}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(var(--bg2),var(--bg));color:var(--tx);font-family:Tahoma,"Vazirmatn",system-ui,sans-serif;display:flex;flex-direction:column}
+#top{display:flex;gap:6px;padding:8px 10px}
+#top button{flex:1;border:0;border-bottom:3px solid var(--ln);background:none;color:var(--mu);font-size:20px;padding:6px 0}
+#top button.on{border-color:var(--rd);color:var(--tx)}
+#main{flex:1;overflow-y:auto;padding:4px 12px 90px}
+#bot{position:fixed;bottom:0;right:0;left:0;display:flex;align-items:center;gap:6px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(5,18,48,.94);backdrop-filter:blur(8px)}
+#bot input{flex:1;padding:10px 12px}
+#bot button{border:0;background:none;color:var(--tx);font-size:22px;padding:6px 8px}
+input,textarea,select{width:100%;padding:12px;border:1px solid var(--ln);border-radius:12px;background:var(--sf);color:var(--tx);font:inherit}
+select option{color:#000}
+.row{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--ln)}
+.left .row{flex-direction:row-reverse}
+.av{width:52px;height:52px;border-radius:50%;border:3px solid #888;background:#030812 center/cover;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex:none;position:relative}
+.av.f{border-color:#8a8a8a}
+.av.big{width:110px;height:110px;font-size:38px}
+.av i{position:absolute;top:-6px;right:18px;font-size:11px;font-style:normal}
+.grow{flex:1;min-width:0}
+.sub{color:var(--mu);font-size:13px;direction:ltr;text-align:right}
+.qa{display:flex;gap:6px}
+.qa button,.cb{width:40px;height:40px;border-radius:50%;border:0;color:#fff;font-size:18px;flex:none}
+.btn{border:0;border-radius:12px;padding:12px 16px;background:var(--ac);color:#06223a;font:inherit}
+.btn.g{background:var(--sf);color:var(--tx);border:1px solid var(--ln)}
+.btn.r{background:var(--rd);color:#fff}
+.btn.gn{background:var(--gn);color:#fff}
+.chips{display:flex;gap:6px;margin:8px 0;overflow-x:auto}
+.chip{border:1px solid var(--ln);background:var(--sf);color:var(--tx);border-radius:20px;padding:6px 14px;font:inherit;font-size:13px;white-space:nowrap}
+.chip.on{background:var(--ac);color:#06223a}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;z-index:20}
+.sheet>div{background:var(--bg);width:100%;max-height:92%;overflow-y:auto;border-radius:20px 20px 0 0;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.grid button{background:none;border:0;color:var(--tx);font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.grid button b{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:normal}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;direction:ltr;margin:10px 20px}
+.keys button{height:68px;border-radius:50%;border:0;background:#7fd4ff;color:#06223a;font-size:24px;line-height:1.1}
+.keys button small{display:block;font-size:10px;opacity:.7}
+#disp{font-size:30px;text-align:center;direction:ltr;min-height:42px;letter-spacing:2px}
+.bub{max-width:80%;padding:8px 12px;border-radius:14px;margin:6px 0;background:var(--sf);white-space:pre-wrap}
+.bub.me{background:var(--ac);color:#06223a;margin-right:auto}
+.lbl{font-size:13px;color:var(--mu);margin:12px 0 4px}
+.inl{display:flex;gap:8px;align-items:center}
+.call{position:fixed;inset:0;background:#0b1f2d;color:#fff;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px}
+.call .acts{display:flex;gap:48px;margin-top:40px}
+.call .acts button{width:72px;height:72px;border-radius:50%;border:0;font-size:30px;color:#fff}
+.empty{text-align:center;color:var(--mu);margin-top:60px}
+.tg{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ln)}
+.tg input{width:auto}
+h4{margin:16px 0 4px;color:var(--ac)}
+#toast{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;left:12px;z-index:40;background:#000;color:#fff;padding:12px;border-radius:12px;display:none}
+.badge{background:var(--ln);border-radius:10px;padding:0 6px;font-size:12px;margin-right:4px}
+#rail{position:fixed;top:64px;right:6px;bottom:70px;width:50px;overflow-y:auto;display:none;flex-direction:column;gap:8px;z-index:5;scrollbar-width:none}
+body.left #rail{right:auto;left:6px}
+.rb{width:46px;height:46px;border-radius:50%;border:0;color:#fff;font-size:18px;flex:none}
+.rb.on,.rb.hv{outline:3px solid var(--ac);transform:scale(1.15)}
+#main.rail{padding-right:66px}
+body.left #main.rail{padding-right:12px;padding-left:66px}
+#main.rail .av{touch-action:none}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+<div id="top"></div>
+<div id="main"></div><div id="rail"></div>
+<div id="bot"><button onclick="dialer()">📞</button><input id="q" placeholder="جستجو" oninput="q=this.value;if(tab!=='contacts'&&tab!=='fav')go('contacts');else main()"><button onclick="plus()">＋</button><button onclick="settings()">⚙️</button></div>
+<div id="layer"></div>
+<script>
+var DEF={tab:'fav',group:1,sim2:1,left:0,smsid:1,theme:'blue',drive:0,fullPhoto:1,speaker:0,prox:0,afterTimer:5,spamSms:1,unknown:0,foreign:0,notif:1};
+var S={contacts:[],calls:[],sms:[],rem:[],notes:[],blocked:[],white:[],set:DEF};
+try{var r=JSON.parse(localStorage.getItem('pb2'));if(r){S=r;S.set=Object.assign({},DEF,r.set);['contacts','calls','sms','rem','notes','blocked','white'].forEach(function(k){S[k]=S[k]||[]})}}catch(e){}
+var tab=S.set.tab,q='',flt='all',dial='',thread=null,tmpPhoto=null,open=null;
+function save(){try{localStorage.setItem('pb2',JSON.stringify(S))}catch(e){}}
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function toast(t){var e=$('toast');e.textContent=t;e.style.display='block';setTimeout(function(){e.style.display='none'},3500)}
+function norm(s){var m='۰۱۲۳۴۵۶۷۸۹',a='٠١٢٣٤٥٦٧٨٩',w={'صفر':0,'یک':1,'يک':1,'دو':2,'سه':3,'چهار':4,'پنج':5,'شش':6,'هفت':7,'هشت':8,'نه':9};
+return s.split(/[\s,،-]+/).map(function(t){if(w[t]!=null)return w[t];return t.replace(/[۰-۹٠-٩]/g,function(c){var i=m.indexOf(c);return i<0?a.indexOf(c):i})}).join('').replace(/[^\d+]/g,'')}
+function intl(n){n=n.replace(/\D/g,'');if(n[0]==='0')n='98'+n.slice(1);return n}
+function cById(i){return S.contacts.filter(function(c){return c.id===i})[0]}
+function cByNum(n){var d=n.replace(/\D/g,'').slice(-10);return S.contacts.filter(function(c){return c.phone.replace(/\D/g,'').slice(-10)===d})[0]}
+function isBlk(n){var d=n.replace(/\D/g,'').slice(-10),m=function(a){return a.replace(/\D/g,'').slice(-10)===d};
+if(S.white.some(m))return false;if(S.blocked.some(m))return true;
+if(S.set.foreign&&/^(\+|00)(?!98)/.test(n.replace(/\s/g,'')))return true;
+if(S.set.unknown&&!cByNum(n))return true;return false}
+function av(c,big){var st=c&&c.photo?'style="background-image:url('+c.photo+')"':'';var ini=c?c.name.slice(0,2):'؟';return '<div class="av'+(big?' big':'')+'" '+st+'>'+(c&&c.fav?'<i>★</i>':'')+(c&&c.photo?'':esc(ini))+'</div>'}
+function fmt(t){return new Date(t).toLocaleString('fa-IR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}
+function log(num,type,sim){var c=cByNum(num);S.calls.unshift({id:id(),cid:c?c.id:null,num:num,type:type,sim:sim||0,t:Date.now()});save()}
+function callNow(num,sim){log(num,'out',sim||1);toast('تماس با '+num+(sim?' (سیم '+sim+')':''));location.href='tel:'+num}
+function go(t){tab=t;main();bar()}
+function cl(){$('layer').innerHTML=''}
+function theme(){document.documentElement.setAttribute('data-theme',S.set.theme);document.body.className=(S.set.left?'left ':'')+(S.set.drive?'drive':'')}
+
+function bar(){var t=[['contacts','👤'],['fav','⭐'],['recent','🕘'],['block','🛡'],['tools','👑']];
+$('top').innerHTML=t.map(function(x){return '<button class="'+(tab===x[0]?'on':'')+'" onclick="go(\''+x[0]+'\')">'+x[1]+'</button>'}).join('')}
+function qa(c){var h='<button style="background:var(--gn)" onclick="event.stopPropagation();callNow(\''+c.phone+'\',1)">📞</button>';
+if(S.set.sim2)h+='<button style="background:var(--bl)" onclick="event.stopPropagation();callNow(\''+c.phone+'\',2)">📞</button>';
+return h+'<button style="background:#5db6d8" onclick="event.stopPropagation();openT(\''+c.phone+'\')">✉</button><button style="background:#5fa95f" onclick="event.stopPropagation();act(\'wa\',\''+c.id+'\')">💬</button>'}
+function crow(c,withQ){return '<div class="row" onclick="detail(\''+c.id+'\')">'+av(c).replace('class="av','data-c="'+c.id+'" class="av')+'<div class="grow"><b>'+esc(c.name)+'</b><div class="sub">'+esc(c.phone)+'</div></div>'+''+'</div>'}
+function list(fv){var l=S.contacts.filter(function(c){return(!fv||c.fav)&&(!q||c.name.toLowerCase().indexOf(q.toLowerCase())>-1||c.phone.indexOf(q)>-1)}).sort(function(a,b){return a.name.localeCompare(b.name,'fa')});
+return l.length?l.map(function(c,i){var L=c.name.charAt(0).toUpperCase(),hd=(!fv&&(i===0||l[i-1].name.charAt(0).toUpperCase()!==L))?'<div style="color:var(--rd);font-weight:bold;border-bottom:1px solid var(--ln);margin-top:8px">'+esc(L)+'</div>':'';return hd+crow(c,fv)}).join(''):'<div class="empty">'+(fv?'هنوز مخاطب برگزیده‌ای ندارید. در جزئیات مخاطب ☆ را بزنید.':'مخاطبی نیست. با ＋ اضافه کنید.')+'</div>'}
+function main(){var h='';railUpd();
+if(tab==='contacts')h=list(0);
+else if(tab==='fav')h=list(1)+'<div style="text-align:center;margin:14px"><button class="btn g" onclick="favPick()">＋ افزودن به برگزیده‌ها</button></div>';
+else if(tab==='recent'){
+var f=[['all','همه'],['in','ورودی'],['out','خروجی'],['miss','بی‌پاسخ'],['block','مسدود']];
+h='<div class="chips">'+f.map(function(x){return '<button class="chip '+(flt===x[0]?'on':'')+'" onclick="flt=\''+x[0]+'\';main()">'+x[1]+'</button>'}).join('')+'</div>';
+var cl2=S.calls.filter(function(c){return flt==='all'||c.type===flt}),g=[];
+cl2.forEach(function(c){var l=g[g.length-1];if(S.set.group&&l&&l.num===c.num&&l.type===c.type)l.n++;else g.push({num:c.num,cid:c.cid,type:c.type,sim:c.sim,t:c.t,n:1})});
+h+=g.length?g.map(function(c){var k=cById(c.cid),ic={in:'↙️',out:'↗️',miss:'❌',block:'🚫'}[c.type];return '<div class="row" onclick="callNow(\''+c.num+'\',1)">'+av(k)+'<div class="grow"><b style="'+(c.type==='miss'?'color:var(--rd)':'')+'">'+esc(k?k.name:c.num)+(c.n>1?'<span class="badge">'+c.n+'</span>':'')+'</b><div class="sub">'+fmt(c.t)+(c.sim?' · SIM'+c.sim:'')+'</div></div><span>'+ic+'</span></div>'}).join(''):'<div class="empty">سابقه‌ای نیست</div>';
+}else if(tab==='block'){
+h=blockHead()+(S.blocked.length?S.blocked.map(function(n,i){var k=cByNum(n);return '<div class="row">'+av(k)+'<div class="grow"><b>'+esc(k?k.name:n)+'</b><div class="sub">'+esc(n)+'</div></div><button class="btn g" onclick="S.blocked.splice('+i+',1);save();main()">رفع مسدودی</button></div>'}).join(''):'<div class="empty">شماره مسدودی نیست</div>');
+}else{
+var ths={};S.sms.forEach(function(m){if(!ths[m.num])ths[m.num]=m});var ks=Object.keys(ths);
+h=prem()+'<h4>⏰ یادآوری‌ها</h4>'+(S.rem.length?S.rem.map(function(x){var k=cById(x.cid);return '<div class="row"><input type="checkbox" style="width:22px" '+(x.done?'checked':'')+' onchange="tgR(\''+x.id+'\')"><div class="grow"><b style="'+(x.done?'text-decoration:line-through':'')+'">'+esc(x.text)+'</b><div class="sub" style="direction:rtl">'+fmt(x.at)+(k?' · '+esc(k.name):'')+'</div></div><button class="btn g" onclick="dl(\'rem\',\''+x.id+'\')">🗑</button></div>'}).join(''):'<div class="sub">—</div>')+'<h4>📝 یادداشت‌ها</h4>'+(S.notes.length?S.notes.map(function(x){var k=cById(x.cid);return '<div class="row"><div class="grow"><div>'+esc(x.text)+'</div><div class="sub" style="direction:rtl">'+fmt(x.t)+(k?' · '+esc(k.name):'')+'</div></div><button class="btn g" onclick="dl(\'notes\',\''+x.id+'\')">🗑</button></div>'}).join(''):'<div class="sub">—</div>')+'<h4>💬 پیام‌ها</h4>'+(ks.length?ks.map(function(n){var m=ths[n],k=cByNum(n);return '<div class="row" onclick="openT(\''+n+'\')">'+av(k)+'<div class="grow"><b>'+esc(k?k.name:n)+'</b><div class="sub" style="direction:rtl">'+esc(m.text.slice(0,40))+'</div></div></div>'}).join(''):'<div class="sub">—</div>');
+}
+$('main').innerHTML=h}
+function dl(k,i){S[k]=S[k].filter(function(x){return x.id!==i});save();main()}
+function tgR(i){S.rem.forEach(function(x){if(x.id===i)x.done=!x.done});save();main()}
+
+var armed=null,drag=null,RA=[['c1','📞','var(--gn)'],['c2','📞','var(--bl)'],['sms','SMS','#5db6d8'],['wa','💬','#5fa95f'],['rem','⏰','#b9a0c0'],['mail','✉️','#1a5a9a'],['waze','🚗','#7aa9bd'],['map','🗺','#9aa3ab'],['meet','🎥','#fff'],['cal','📅','#8b7b73'],['note','📝','#7a7660']];
+function railUpd(){var on=tab==='fav'||tab==='contacts',r=$('rail');r.style.display=on?'flex':'none';$('main').className=on?'rail':'';if(on)r.innerHTML=RA.filter(function(a){return a[0]!=='c2'||S.set.sim2}).map(function(a){return '<button class="rb'+(armed===a[0]?' on':'')+'" data-a="'+a[0]+'" style="background:'+a[2]+'" onclick="arm(\''+a[0]+'\')">'+a[1]+'</button>'}).join('')}
+function arm(a){armed=armed===a?null:a;railUpd();if(armed)toast('روی یک مخاطب بزنید، یا عکس مخاطب را روی دکمه بکشید')}
+function doAct(a,i){var c=cById(i);if(!c)return;if(a==='c1'||a==='c2')callNow(c.phone,+a[1]);else if(a==='sms')openT(c.phone);else if(a==='rem')rem(i);else if(a==='note')note(i);else act(a,i)}
+function favPick(){var l=S.contacts.filter(function(c){return !c.fav}).sort(function(a,b){return a.name.localeCompare(b.name,'fa')});$('layer').innerHTML='<div class="sheet" onclick="if(event.target===this)cl()"><div><h3>افزودن به برگزیده‌ها</h3>'+(l.length?l.map(function(c){return '<div class="row" onclick="fav(\''+c.id+'\')">'+av(c)+'<b>'+esc(c.name)+'</b></div>'}).join(''):'<div class="empty">مخاطبی نیست</div>')+'</div></div>'}
+function impV(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var n=0;r.result.split(/BEGIN:VCARD/i).slice(1).forEach(function(b){var fn=(b.match(/^FN[^:]*:(.*)$/im)||[])[1],tel=(b.match(/^TEL[^:]*:(.*)$/im)||[])[1],em=(b.match(/^EMAIL[^:]*:(.*)$/im)||[])[1];if(!fn||!tel)return;tel=tel.trim().replace(/[^\d+]/g,'');if(!tel||cByNum(tel))return;S.contacts.push({id:id(),fav:false,name:fn.trim(),phone:tel,email:(em||'').trim(),addr:'',photo:null});n++});save();cl();main();toast(n+' مخاطب وارد شد')};r.readAsText(f)}
+document.addEventListener('touchstart',function(e){var t=e.target.closest&&e.target.closest('.av[data-c]');drag=t?{c:t.getAttribute('data-c'),m:0}:null},{passive:true});
+document.addEventListener('touchmove',function(e){if(!drag)return;drag.m=1;var p=e.touches[0],el=document.elementFromPoint(p.clientX,p.clientY),b=el&&el.closest&&el.closest('.rb');document.querySelectorAll('.rb.hv').forEach(function(x){x.classList.remove('hv')});if(b)b.classList.add('hv')},{passive:true});
+document.addEventListener('touchend',function(e){if(!drag)return;var p=e.changedTouches[0],el=document.elementFromPoint(p.clientX,p.clientY),b=el&&el.closest&&el.closest('.rb'),d=drag;drag=null;document.querySelectorAll('.rb.hv').forEach(function(x){x.classList.remove('hv')});if(d.m&&b){e.preventDefault();doAct(b.getAttribute('data-a'),d.c)}},{passive:false});
+function A(ic,lb,js,col){return '<button onclick="'+js+'"><b style="background:'+(col||'var(--sf)')+'">'+ic+'</b>'+lb+'</button>'}
+function detail(i){if(armed){var a=armed;armed=null;railUpd();return doAct(a,i)}var c=cById(i);
+var g=A('📞','سیم ۱','cl();callNow(\''+c.phone+'\',1)','var(--gn)');
+if(S.set.sim2)g+=A('📞','سیم ۲','cl();callNow(\''+c.phone+'\',2)','var(--bl)');
+g+=A('SMS','پیامک','cl();openT(\''+c.phone+'\')','#5db6d8')+A('💬','واتساپ','act(\'wa\',\''+i+'\')','#5fa95f')+A('✈️','تلگرام','act(\'tg\',\''+i+'\')','#2a9fd6')+A('✉️','ایمیل','act(\'mail\',\''+i+'\')','#1a5a9a')+A('🚗','Waze','act(\'waze\',\''+i+'\')')+A('🗺','نقشه','act(\'map\',\''+i+'\')')+A('🎥','Meet','act(\'meet\',\''+i+'\')')+A('📅','تقویم','act(\'cal\',\''+i+'\')')+A('⏰','یادآوری','cl();rem(\''+i+'\')','#b9a0c0')+A('📝','یادداشت','cl();note(\''+i+'\')','#7a7660')+A('✏️','ویرایش','cl();edit(\''+i+'\')')+A(c.fav?'★':'☆','برگزیده','fav(\''+i+'\')')+A('🚫','مسدود','blk(\''+c.phone+'\');cl()')+A('🗑','حذف','del(\''+i+'\')','var(--rd)');
+var ns=S.notes.filter(function(n){return n.cid===i}).map(function(n){return '<div class="sub" style="direction:rtl;text-align:right">📝 '+esc(n.text)+'</div>'}).join('');
+$('layer').innerHTML='<div class="sheet" onclick="if(event.target===this)cl()"><div style="text-align:center"><div style="display:flex;justify-content:center">'+av(c,1)+'</div><h2>'+esc(c.name)+'</h2><div class="sub" style="text-align:center">'+esc(c.phone)+'</div>'+(c.email?'<div class="sub" style="text-align:center">'+esc(c.email)+'</div>':'')+(c.addr?'<div class="sub" style="text-align:center;direction:rtl">'+esc(c.addr)+'</div>':'')+ns+'<div class="grid">'+g+'</div></div></div>'}
+function act(t,i){var c=cById(i),u=encodeURIComponent;
+var m={wa:'https://wa.me/'+intl(c.phone),tg:'https://t.me/+'+intl(c.phone),mail:c.email?'mailto:'+c.email:null,waze:'https://waze.com/ul?q='+u(c.addr||c.name),map:'https://www.google.com/maps/search/?api=1&query='+u(c.addr||c.name),meet:'https://meet.google.com/new',cal:'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+u('با '+c.name)};
+if(!m[t]){toast('برای این مخاطب ایمیل ثبت نشده. ویرایش کنید.');return}
+window.open(m[t],'_blank')}
+function fav(i){var c=cById(i);c.fav=!c.fav;save();cl();main()}
+function del(i){if(confirm('این مخاطب حذف شود؟')){S.contacts=S.contacts.filter(function(c){return c.id!==i});save();cl();main()}}
+function blk(n){n=n||prompt('شماره‌ای که می‌خواهید مسدود شود:');if(!n)return;n=norm(n);if(n&&!isBlk(n)){S.blocked.push(n);save();toast('مسدود شد');main()}}
+
+function edit(i,num){var c=i?cById(i):null;tmpPhoto=c?c.photo:null;
+$('layer').innerHTML='<div class="sheet"><div><h3>'+(c?'ویرایش مخاطب':'ایجاد مخاطب')+'</h3><div style="display:flex;justify-content:center"><div id="pv" onclick="$(\'file\').click()">'+av({name:c?c.name:'+',photo:tmpPhoto},1)+'</div></div><input type="file" id="file" accept="image/*" hidden onchange="pick(this)"><div class="sub" style="text-align:center">لمس برای انتخاب عکس یا اسکرین‌شات</div><div class="lbl">نام</div><div class="inl"><input id="fn" value="'+esc(c?c.name:'')+'"><button class="btn g" onclick="mic(\'fn\',0)">🎤</button></div><div class="lbl">شماره موبایل</div><div class="inl"><input id="fp" inputmode="tel" style="direction:ltr;text-align:right" value="'+esc(c?c.phone:(num||''))+'"><button class="btn g" onclick="mic(\'fp\',1)">🎤</button></div><div class="lbl">ایمیل</div><div class="inl"><input id="fe" style="direction:ltr;text-align:right" value="'+esc(c&&c.email)+'"><button class="btn g" onclick="mic(\'fe\',2)">🎤</button></div><div class="lbl">آدرس</div><div class="inl"><input id="fa" value="'+esc(c&&c.addr)+'"><button class="btn g" onclick="mic(\'fa\',0)">🎤</button></div><div class="inl" style="margin-top:16px"><button class="btn g" style="flex:1" onclick="cl()">انصراف</button><button class="btn" style="flex:1" onclick="sv(\''+(i||'')+'\')">ذخیره</button></div></div></div>'}
+function pick(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,320/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=im.width*s;cv.height=im.height*s;cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);tmpPhoto=cv.toDataURL('image/jpeg',.8);$('pv').innerHTML=av({name:'',photo:tmpPhoto},1)};im.src=r.result};r.readAsDataURL(f)}
+function mailFix(t){var W={at:'@','ات':'@','آت':'@','اَت':'@','اد':'@',dot:'.','دات':'.','نقطه':'.','جیمیل':'gmail','یاهو':'yahoo','هاتمیل':'hotmail','اوتلوک':'outlook','کام':'com','دش':'-',dash:'-',underscore:'_','آندرلاین':'_'};return t.toLowerCase().split(/\s+/).map(function(w){return W[w]!=null?W[w]:w}).join('').replace(/[۰-۹]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(c)})}
+function mic(f,isNum){var R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert('مرورگر شما تشخیص گفتار را پشتیبانی نمی‌کند. از Chrome استفاده کنید.');return}
+var r=new R();r.lang='fa-IR';r.onresult=function(e){var t=e.results[0][0].transcript;$(f).value=isNum===2?mailFix(t):isNum?norm(t):t};r.onerror=function(){alert('دسترسی به میکروفون ممکن نشد')};r.start()}
+function sv(i){var n=$('fn').value.trim(),p=norm($('fp').value);if(!n||!p){alert('نام و شماره را وارد کنید');return}
+var d={name:n,phone:p,email:$('fe').value.trim(),addr:$('fa').value.trim(),photo:tmpPhoto};
+if(i)Object.assign(cById(i),d);else S.contacts.push(Object.assign({id:id(),fav:false},d));
+save();cl();main()}
+
+var T9={2:'ABCبپتث',3:'DEFآا',4:'GHIسشصض',5:'JKLذرزژ',6:'MNOجچحخ',7:'PQRSنوه',8:'TUVفقکگل',9:'WXYZطظعغ'};
+function t9(s){return s.toUpperCase().split('').map(function(ch){for(var k in T9)if(T9[k].indexOf(ch)>-1)return k;return /\d/.test(ch)?ch:''}).join('')}
+function dialer(){
+function sb(x){if(x==='1')return '◌◌';var t=T9[x];if(!t)return x==='0'?'+':'';var m=t.match(/^[A-Z]+/)[0];return m+'<br>'+t.slice(m.length)}
+var k='123456789*0#'.split('').map(function(x){return '<button onclick="key(\''+x+'\')">'+x+'<small>'+sb(x)+'</small></button>'}).join('');
+$('layer').innerHTML='<div class="sheet" onclick="if(event.target===this)cl()"><div><div id="sug"></div><div id="disp"></div><div class="keys">'+k+'</div><div class="inl" style="justify-content:center;gap:16px"><button class="cb" style="background:var(--sf)" onclick="cl();edit(null,dial)">👤</button><button class="cb" style="width:64px;height:64px;background:var(--gn)" onclick="dial&&(cl(),callNow(dial,1))">📞</button>'+(S.set.sim2?'<button class="cb" style="width:64px;height:64px;background:var(--bl)" onclick="dial&&(cl(),callNow(dial,2))">📞</button>':'')+'<button class="cb" style="background:var(--sf)" onclick="dial=dial.slice(0,-1);dd()">⌫</button></div></div></div>';dd()}
+function key(k){dial+=k;dd()}
+function dd(){$('disp').textContent=dial;var m=dial?S.contacts.filter(function(c){return c.phone.indexOf(dial)>-1||t9(c.name).indexOf(dial)>-1}).slice(0,3):[];
+$('sug').innerHTML=m.map(function(c){return '<div class="row" onclick="dial=\''+c.phone+'\';dd()">'+av(c)+'<div class="grow"><b>'+esc(c.name)+'</b><div class="sub">'+esc(c.phone)+'</div></div></div>'}).join('')}
+
+function plus(){var it=[['👤','ایجاد مخاطب','edit()'],['⏰','یادآوری جدید','rem()'],['📝','یادداشت جدید','note()'],['🚫','مسدود کردن مخاطب','blk()'],['📲','شبیه‌سازی تماس ورودی','sim()'],['📵','شبیه‌سازی تماس ناشناس/خارجی','simU()'],['💬','شبیه‌سازی پیامک ورودی','simS()']];
+$('layer').innerHTML='<div class="sheet" onclick="if(event.target===this)cl()"><div>'+it.map(function(x){return '<div class="row" onclick="cl();'+x[2]+'"><div class="av" style="border:0;background:var(--sf)">'+x[0]+'</div><b>'+x[1]+'</b></div>'}).join('')+'</div></div>'}
+function rem(cid){$('layer').innerHTML='<div class="sheet"><div><h3>یادآوری جدید</h3><input id="rt" placeholder="متن یادآوری"><div class="lbl">زمان</div><input id="ra" type="datetime-local"><div class="inl" style="margin-top:16px"><button class="btn g" style="flex:1" onclick="cl()">انصراف</button><button class="btn" style="flex:1" onclick="svR(\''+(cid||'')+'\')">ذخیره</button></div></div></div>'}
+function svR(cid){var t=$('rt').value.trim(),a=$('ra').value;if(!t||!a){alert('متن و زمان را وارد کنید');return}
+S.rem.push({id:id(),cid:cid||null,text:t,at:new Date(a).getTime(),done:false});save();cl();try{if(window.Notification&&Notification.permission==='default')Notification.requestPermission()}catch(e){}go('tools')}
+function note(cid){$('layer').innerHTML='<div class="sheet"><div><h3>یادداشت جدید</h3><textarea id="nt" rows="4"></textarea><div class="inl" style="margin-top:16px"><button class="btn g" style="flex:1" onclick="cl()">انصراف</button><button class="btn" style="flex:1" onclick="svN(\''+(cid||'')+'\')">ذخیره</button></div></div></div>'}
+function svN(cid){var t=$('nt').value.trim();if(!t)return;S.notes.unshift({id:id(),cid:cid||null,text:t,t:Date.now()});save();cl();go('tools')}
+setInterval(function(){var n=Date.now();S.rem.forEach(function(x){if(!x.done&&!x.fired&&x.at<=n){x.fired=true;save();toast('⏰ '+x.text);try{if(window.Notification&&Notification.permission==='granted')new Notification(x.text)}catch(e){}if(tab==='tools')main()}})},15000);
+
+function sim(){if(!S.contacts.length){alert('اول یک مخاطب اضافه کنید');return}
+var c=S.contacts[Math.floor(Math.random()*S.contacts.length)];incoming(c.phone)}
+function incoming(num){if(isBlk(num)){log(num,'block');if(S.set.notif)toast('تماس '+num+' مسدود و رد شد');return}
+var c=cByNum(num);
+$('layer').innerHTML='<div class="call"'+(FP(c)?' style="background:linear-gradient(#0007,#000b),url('+c.photo+') center/cover"':'')+'>'+(FP(c)?'':av(c,1))+'<h1>'+esc(c?c.name:'ناشناس')+'</h1><div style="direction:ltr;opacity:.7">'+esc(num)+'</div><div>تماس ورودی…</div><div class="acts"><button style="background:var(--rd)" onclick="log(\''+num+'\',\'miss\');cl();main()">✖</button><button style="background:var(--gn)" onclick="log(\''+num+'\',\'in\');afterCall(\''+num+'\')">📞</button></div></div>'}
+function simS(){var TXT=Math.random()<.5?'سلام! این یک پیامک آزمایشی است.':'برنده جایزه شدید! کلیک کنید: http://bit.ly/x';if(!S.contacts.length){alert('اول یک مخاطب اضافه کنید');return}
+var c=S.contacts[Math.floor(Math.random()*S.contacts.length)];S.sms.unshift({id:id(),num:c.phone,text:TXT,dir:'in',t:Date.now()});save();
+if(S.set.smsid)$('layer').innerHTML='<div class="sheet" onclick="cl()"><div style="text-align:center">'+'<div style="display:flex;justify-content:center">'+av(c,1)+'</div><h3>پیامک جدید از '+esc(c.name)+'</h3><div class="sub" style="text-align:center">'+esc(c.phone)+'</div><p>'+sp(TXT)+esc(TXT)+'</p><button class="btn" onclick="event.stopPropagation();openT(\''+c.phone+'\')">پاسخ</button></div></div>';else toast('پیامک جدید از '+c.name);main()}
+function openT(num){thread=num;var k=cByNum(num),m=S.sms.filter(function(x){return x.num===num}).slice().reverse();
+$('layer').innerHTML='<div class="sheet"><div style="height:85%;display:flex;flex-direction:column"><div class="inl"><b style="flex:1">'+esc(k?k.name:num)+'</b><button class="btn g" onclick="cl();main()">✕</button></div><div style="flex:1;overflow-y:auto;margin:8px 0">'+m.map(function(x){return '<div class="bub '+(x.dir==='out'?'me':'')+'">'+sp(x.text)+esc(x.text)+'</div>'}).join('')+'</div><div class="inl"><textarea id="mt" rows="2" placeholder="پیام…"></textarea><button class="btn" onclick="send()">ارسال</button></div></div></div>'}
+function send(){var t=$('mt').value.trim();if(!t)return;S.sms.unshift({id:id(),num:thread,text:t,dir:'out',t:Date.now()});save();var u='sms:'+thread+'?body='+encodeURIComponent(t);openT(thread);location.href=u}
+
+function settings(){var s=S.set;function T(k,l,d){return '<div class="tg"><div>'+l+'<div class="sub" style="direction:rtl">'+d+'</div></div><input type="checkbox" style="width:24px;height:24px" '+(s[k]?'checked':'')+' onchange="S.set.'+k+'=this.checked?1:0;save();theme();main()"></div>'}
+$('layer').innerHTML='<div class="sheet" onclick="if(event.target===this)cl()"><div><h3>تنظیمات</h3><div class="lbl">نمای پیش‌فرض هنگام اجرا</div><select onchange="S.set.tab=this.value;save()">'+[['fav','علاقه‌مندی‌ها'],['contacts','مخاطبین'],['recent','تماس‌ها']].map(function(o){return '<option value="'+o[0]+'"'+(s.tab===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select><div class="lbl">تم</div><select onchange="S.set.theme=this.value;save();theme()">'+[['blue','سرمه‌ای'],['dark','تیره'],['light','روشن'],['green','سبز'],['purple','بنفش'],['wine','شرابی']].map(function(o){return '<option value="'+o[0]+'"'+(s.theme===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>'+T('group','گروه‌بندی سابقه تماس','تماس‌های پشت‌سرهم یک شماره با یک شمارنده نمایش داده می‌شوند')+T('sim2','پشتیبانی از دو سیم‌کارت','نمایش دکمه‌های سیم ۱ و سیم ۲')+T('left','حالت چپ‌دست','چیدمان دکمه‌ها برعکس می‌شود')+T('smsid','شناسه پیامک','نمایش اطلاعات فرستنده هنگام دریافت پیامک')+'<div class="lbl">ورود مخاطبین از گوشی (فایل vCard / .vcf)</div><input type="file" accept=".vcf,text/vcard,text/x-vcard" onchange="impV(this)"><div class="sub" style="direction:rtl;text-align:right">در برنامه مخاطبین گوشی: ⋮ ← صادر کردن ← .vcf</div><div class="lbl">پشتیبان‌گیری (کپی کنید یا برای بازیابی جای‌گذاری کنید)</div><textarea id="bk" rows="3">'+esc(JSON.stringify(S))+'</textarea><div class="inl" style="margin-top:8px"><button class="btn g" style="flex:1" onclick="restore()">بازیابی</button><button class="btn r" style="flex:1" onclick="if(confirm(\'همه داده‌ها پاک شود؟\')){S={contacts:[],calls:[],sms:[],rem:[],notes:[],blocked:[],white:[],set:DEF};save();theme();cl();main()}">پاک‌کردن همه</button></div></div></div>'}
+function restore(){try{var r=JSON.parse($('bk').value);S=r;S.set=Object.assign({},DEF,r.set);save();theme();cl();main();toast('بازیابی شد')}catch(e){alert('داده نامعتبر است')}}
+function TGL(k,l,d){return '<div class="tg"><div>'+l+'<div class="sub" style="direction:rtl;text-align:right">'+d+'</div></div><input type="checkbox" style="width:24px;height:24px" '+(S.set[k]?'checked':'')+' onchange="S.set.'+k+'=this.checked?1:0;save();theme();main()"></div>'}
+function SW(k){return '<input type="checkbox" style="width:24px;height:24px;margin-top:6px" '+(S.set[k]?'checked':'')+' onchange="S.set.'+k+'=this.checked?1:0;save();theme()">'}
+function sp(x){return S.set.spamSms&&/https?:|bit\.ly|برنده|جایزه|کلیک/i.test(x)?'⚠️ مشکوک به کلاهبرداری\n':''}
+function FP(c){return S.set.fullPhoto&&c&&c.photo}
+function card(ic,ti,d,x){return '<div class="tg" style="background:var(--sf);border-radius:16px;padding:12px;margin-top:8px;border:0;gap:12px;justify-content:flex-start"><span style="font-size:30px">'+ic+'</span><div class="grow"><b>'+ti+'</b><div class="sub" style="direction:rtl;text-align:right">'+d+'</div>'+(x||'')+'</div></div>'}
+function prem(){var N='<div class="sub" style="direction:rtl;text-align:right;color:var(--rd)">فقط در نسخهٔ اندروید واقعی عمل می‌کند</div>';
+return '<div style="text-align:center;margin:10px 0"><h2 style="margin:4px">👑 حرفه‌ای شوید</h2><div class="sub" style="text-align:center">همهٔ ویژگی‌ها در این برنامه رایگان است</div></div>'
++card('🚫','بدون تبلیغات','تجربه‌ای تمیز و بدون حواس‌پرتی ✓')
++card('🎨','تم‌ها','سرمه‌ای، تیره، روشن، سبز، بنفش، شرابی','<button class="btn g" style="margin-top:6px" onclick="settings()">انتخاب تم</button>')
++card('🚗','حالت رانندگی','دکمه‌های بزرگ و چیدمان بدون نیاز به دست',SW('drive'))
++card('🏪','جستجوی مشاغل','یافتن مکان‌های نزدیک (در Google Maps باز می‌شود)','<div class="inl" style="margin-top:6px"><input id="bq" placeholder="مثلاً داروخانه"><button class="btn" onclick="window.open(\'https://www.google.com/maps/search/\'+encodeURIComponent($(\'bq\').value||\'نزدیک من\'),\'_blank\')">برو</button></div>')
++card('🖼','عکس تماس‌گیرنده تمام‌صفحه','نمایش تمام‌صفحهٔ عکس مخاطب هنگام تماس',SW('fullPhoto'))
++card('📢','بلندگوی خودکار','تعویض به بلندگو زمانی که گوشی نزدیک گوش نیست',SW('speaker')+N)
++card('✋','پاسخ با نزدیک کردن','گوشی را به گوش نزدیک کنید تا پاسخ دهید',SW('prox')+N)
++card('⏳','تایمر پس از تماس','صفحهٔ پس از تماس را پس از چند ثانیه خودکار می‌بندد','<select style="margin-top:6px" onchange="S.set.afterTimer=this.value;save()">'+[[0,'خاموش'],[5,'۵ ثانیه'],[10,'۱۰ ثانیه'],[20,'۲۰ ثانیه']].map(function(o){return '<option value="'+o[0]+'"'+(+S.set.afterTimer===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>')
++card('🛡','تشخیص پیشرفتهٔ کلاه‌برداری','پیام‌های مشکوک را علامت‌گذاری می‌کند',SW('spamSms'))}
+function blockHead(){var on=S.set.unknown||S.set.foreign||S.blocked.length;
+return '<div style="background:#050e1f;border-radius:16px;padding:18px;text-align:center;margin-top:8px"><div style="font-size:54px">'+(on?'🛡️':'⚠️')+'</div><b>حفاظت از هرزنامه '+(on?'روشن':'خاموش')+' است.</b><div class="sub" style="direction:rtl;text-align:center">تماس‌گیرندگان ناخواسته را مسدود کنید.</div></div>'
++TGL('unknown','مسدود کردن شماره‌های ناشناس','تماس از شماره‌هایی که در مخاطبین نیستند مسدود می‌شود')
++TGL('foreign','مسدود کردن شماره‌های خارجی','تماس از شماره‌های غیر ایران (+ و 00) مسدود می‌شود')
++'<div class="tg"><b>مسدود کردن شماره‌های انتخاب شده</b><a style="color:var(--ac)" onclick="blk()">افزودن</a></div>'
++'<div class="tg"><div><b>White List</b><div class="sub" style="direction:rtl;text-align:right">اجازهٔ تماس از شماره‌های مسدود یا ناخواسته</div></div><a style="color:var(--ac)" onclick="wl()">افزودن</a></div>'
++S.white.map(function(n,i){return '<div class="row"><div class="grow"><b>'+esc(n)+'</b><div class="sub">لیست سفید</div></div><button class="btn g" onclick="S.white.splice('+i+',1);save();main()">حذف</button></div>'}).join('')
++TGL('notif','نمایش اعلان‌ها','نشان دادن اعلان هنگامی که یک تماس مسدود شده‌است')
++'<div class="tg" onclick="settings()"><b>تنظیمات پیشرفته</b></div><h4>🚫 شماره‌های مسدود</h4>'}
+function wl(){var n=prompt('شماره‌ای که همیشه مجاز باشد:');if(!n)return;n=norm(n);if(n){S.white.push(n);save();main()}}
+function simU(){incoming(['+14155550123','09351234567','+442079460000'][Math.floor(Math.random()*3)])}
+function afterCall(num){var c=cByNum(num),tm=+S.set.afterTimer,cid=c?c.id:'';cl();main();
+$('layer').innerHTML='<div class="sheet" onclick="if(event.target===this)cl()"><div style="text-align:center" id="ac"><div style="display:flex;justify-content:center">'+av(c,1)+'</div><h3>پایان تماس با '+esc(c?c.name:num)+'</h3><div class="grid">'+A('📝','یادداشت','cl();note(\''+cid+'\')')+A('⏰','یادآوری','cl();rem(\''+cid+'\')')+A('SMS','پیامک','cl();openT(\''+num+'\')')+A('✖','بستن','cl()')+'</div>'+(tm?'<div class="sub" style="text-align:center">بسته‌شدن خودکار پس از '+tm+' ثانیه</div>':'')+'</div></div>';
+if(tm)setTimeout(function(){if($('ac'))cl()},tm*1000)}
+theme();bar();main();
+</script>
+</body>
+</html>
